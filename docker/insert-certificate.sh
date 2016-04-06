@@ -73,11 +73,11 @@ ca=$(openssl s_client -connect ${ip}:443 -prexit -showcerts </dev/null 2>/dev/nu
 
 if [ -n "$ca" ]; then
   if [ ! -e "$route.routebackup.json" ]; then
-    oc get --namespace=$namespace routes $route --output=json > $route.routebackup.json
+    oc export --namespace=$namespace routes $route --output=json > $route.routebackup.json
   else
-    oc get --namespace=$namespace routes $route --output=json > $route.routebackup.json.1
+    oc export --namespace=$namespace routes $route --output=json > $route.routebackup.json.1
   fi
-  oc get --namespace=$namespace routes $route --output=json | \
+  oc export --namespace=$namespace routes $route --output=json | \
   jq " \
   .spec.tls.termination=\"reencrypt\" | \
   .spec.tls.key=\"${key}\" | \
