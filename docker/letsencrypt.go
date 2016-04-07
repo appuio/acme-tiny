@@ -3,15 +3,15 @@ package main
 import (
   "fmt"
   "net/http"
+  "strings"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintf(w, sh("ls -l /tmp").stdout)
-//  fmt.Fprintf(w, "Hi there, I love %s!\n", r.URL.Path[1:])
+  fmt.Fprintln(w, sh("/usr/local/bin/letsencrypt.sh %s", strings.Split(r.Host, ":")[0]).stdout)
 }
 
 func main() {
   http.HandleFunc("/.well-known/letsencrypt", handler)
-  http.Handle("/", http.FileServer(http.Dir("./tmp")))
+  http.Handle("/", http.FileServer(http.Dir("/srv")))
   http.ListenAndServe(":8080", nil)
 }
