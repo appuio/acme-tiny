@@ -12,7 +12,7 @@ cd /var/lib/letsencrypt
 
 if ! [ -s ${domain}.crt ] || ! openssl x509 -checkend 2592000 -noout -in ${domain}.crt; then
   # No valid cert or cert will expire within the next 30 days, renew
-  python /usr/local/bin/acme_tiny.py --account-key account.key --csr ${domain}.csr --acme-dir /srv/.well-known/acme-challenge/ >${domain}.crt
+  python /usr/local/letsencrypt/acme_tiny.py --account-key account.key --csr ${domain}.csr --acme-dir /srv/.well-known/acme-challenge/ >${domain}.crt
 fi
 
-/usr/local/bin/insert-certificate.sh -h $domain -c ${domain}.crt -k ${domain}.key
+/usr/local/letsencrypt/insert-certificate.sh -h $domain -c ${domain}.crt -k ${domain}.key

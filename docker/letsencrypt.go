@@ -7,7 +7,7 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintln(w, sh("/usr/local/bin/letsencrypt.sh %s", strings.Split(r.Host, ":")[0]).stdout)
+  fmt.Fprintln(w, sh("/usr/local/letsencrypt/letsencrypt.sh %s", strings.Split(r.Host, ":")[0]).stdout)
 }
 
 func main() {
