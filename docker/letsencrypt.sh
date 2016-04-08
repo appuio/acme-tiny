@@ -11,7 +11,7 @@ cd /var/lib/letsencrypt
 [ -s ${domain}.csr ] || openssl req -new -sha256 -key ${domain}.key -subj "/CN=${domain}" > ${domain}.csr
 
 if ! [ -s ${domain}.crt ] || ! openssl x509 -checkend 2592000 -noout -in ${domain}.crt; then
-  if [ -s ${domain.crt} ]; then
+  if [ -s ${domain}.crt ]; then
     echo "Renewing certificate for ${domain}"
   else
     echo "Creating certificate for ${domain}"
