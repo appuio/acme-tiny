@@ -7,7 +7,9 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintln(w, sh("/usr/local/letsencrypt/letsencrypt.sh %s", strings.Split(r.Host, ":")[0]).stdout)
+  proc := sh("/usr/local/letsencrypt/letsencrypt.sh %s", strings.Split(r.Header["X-Forwarded-Host"][0], ":")[0])
+  fmt.Fprintln(w,proc.stderr)
+  fmt.Fprintln(w,proc.stdout)
 }
 
 func main() {
