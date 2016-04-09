@@ -57,6 +57,9 @@ fi
 OIFS="$IFS"
 IFS=' '
 
+export KUBECONFIG=/tmp/.kubeconfig
+oc project appuio-infra >/dev/null
+
 result=$(oc get --all-namespaces routes --output="jsonpath={range .items[?(@.spec.host==\"$hostname\")]}{.spec.to.name} {.metadata.namespace} {.metadata.name}{end}")
 arrResult=($result)
 service=${arrResult[0]}
@@ -65,11 +68,10 @@ route=${arrResult[2]}
 
 IFS="$OIFS"
 
-ip=$(oc get --namespace=$namespace services $service --output="jsonpath={.spec.portalIP}")
 key=$(sed ':a;N;$!ba;s/\n/\\n/g' $key_file)
 cert=$(sed ':a;N;$!ba;s/\n/\\n/g' $cert_file)
 
-ca=$(openssl s_client -connect ${ip}:443 -prexit -showcerts </dev/null 2>/dev/null | sed -nr '/BEGIN\ CERTIFICATE/H;//,/END\ CERTIFICATE/G;s/\n(\n[^\n]*){2}$//p' | sed ':a;N;$!ba;s/\n/\\n/g')
+ca=$(openssl s_client -connect ${hostname}:443 -servername ${hostname} -prexit -showcerts </dev/null 2>/dev/null | sed -nr '/BEGIN\ CERTIFICATE/H;//,/END\ CERTIFICATE/G;s/\n(\n[^\n]*){2}$//p' | sed ':a;N;$!ba;s/\n/\\n/g')
 
 if [ -n "$ca" ]; then
   if [ ! -e "$route.routebackup.json" ]; then
