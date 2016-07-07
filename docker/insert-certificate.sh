@@ -112,7 +112,7 @@ case $termination in
       .spec.tls.key=\"${key}\" | \
       .spec.tls.certificate=\"${cert}\" | \
       .spec.tls.caCertificate=\"${ca}\" | \
-      .spec.tls.destinationCaCertificate=\"${destination_ca}\"" > \
+      .spec.tls.destinationCACertificate=\"${destination_ca}\"" > \
       /tmp/$route.new.json
     else
       echo "ERROR: Failed to obtain CA from backend. Route not replaced." >&2
