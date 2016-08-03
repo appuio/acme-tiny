@@ -79,7 +79,7 @@ key=$(sed ':a;N;$!ba;s/\n/\\n/g' $key_file)
 cert=$(sed ':a;N;$!ba;s/\n/\\n/g' $cert_file)
 
 issuer=$(openssl x509 -issuer -noout -in $cert_file)
-ca_file="lets-encrypt-x${issuer#issuer= /C=US/O=Let\'s Encrypt/CN=Let\'s Encrypt Authority X}-cross-signed.pem"
+ca_file="/usr/local/letsencrypt/lets-encrypt-x${issuer#issuer= /C=US/O=Let\'s Encrypt/CN=Let\'s Encrypt Authority X}-cross-signed.pem"
 
 if [[ -e $ca_file ]]; then
   ca=$(sed ':a;N;$!ba;s/\n/\\n/g' $ca_file)
